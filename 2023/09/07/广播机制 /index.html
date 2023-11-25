@@ -1,0 +1,379 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>广播机制 | KilluaSSR</title><meta name="author" content="Killua"><meta name="copyright" content="Killua"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="广播机制 Owner: Killua Zoldyck  BroadcastReceiver  Android中的广播主要可以分为两种类型：标准广播和有序广播 标准广播（normal broadcasts）是一种完全异步执行的广播，在广播发出之后，所有的BroadcastReceiver几乎会在同一时刻收到这条广播消息，因此它们之间没有任何先后顺序可言。这种广播的效率会比较高，但同时也意味着它是无法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="广播机制">
+<meta property="og:url" content="https://killuassr.github.io/2023/09/07/%E5%B9%BF%E6%92%AD%E6%9C%BA%E5%88%B6%20/index.html">
+<meta property="og:site_name" content="KilluaSSR">
+<meta property="og:description" content="广播机制 Owner: Killua Zoldyck  BroadcastReceiver  Android中的广播主要可以分为两种类型：标准广播和有序广播 标准广播（normal broadcasts）是一种完全异步执行的广播，在广播发出之后，所有的BroadcastReceiver几乎会在同一时刻收到这条广播消息，因此它们之间没有任何先后顺序可言。这种广播的效率会比较高，但同时也意味着它是无法">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2023/11/25/eKFtnus7iGYPJCb.jpg">
+<meta property="article:published_time" content="2023-09-07T06:15:17.000Z">
+<meta property="article:modified_time" content="2023-11-25T04:26:00.894Z">
+<meta property="article:author" content="Killua">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2023/11/25/eKFtnus7iGYPJCb.jpg"><link rel="shortcut icon" href="/img/ava.jpg"><link rel="canonical" href="https://killuassr.github.io/2023/09/07/%E5%B9%BF%E6%92%AD%E6%9C%BA%E5%88%B6%20/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: {"limitDay":100,"position":"top","messagePrev":"这篇文章已经发布了","messageNext":"天了哦～请注意相关内容是否变动与是否有效。o(*////▽////*)q"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '广播机制',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-11-25 12:26:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/bkg.css"><link rel="stylesheet" href="/css/navi.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/ava.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/categories/Study/"><i class="fa-fw fas fa-pen-ruler"></i><span> 学习</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://s2.loli.net/2023/11/25/eKFtnus7iGYPJCb.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="KilluaSSR"><span class="site-name">KilluaSSR</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/categories/Study/"><i class="fa-fw fas fa-pen-ruler"></i><span> 学习</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">广播机制</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-09-07T06:15:17.000Z" title="发表于 2023-09-07 14:15:17">2023-09-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-11-25T04:26:00.894Z" title="更新于 2023-11-25 12:26:00">2023-11-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="广播机制"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>广播机制</h1>
+<p>Owner: Killua Zoldyck</p>
+<blockquote>
+<p>BroadcastReceiver</p>
+</blockquote>
+<p>Android中的广播主要可以分为两种类型：标准广播和有序广播</p>
+<p>标准广播（normal broadcasts）是一种完全异步执行的广播，在广播发出之后，所有的BroadcastReceiver几乎会在同一时刻收到这条广播消息，因此它们之间没有任何先后顺序可言。这种广播的效率会比较高，但同时也意味着它是无法被截断的。</p>
+<p>有序广播（ordered broadcasts）则是一种同步执行的广播，在广播发出之后，同一时刻只会有一个BroadcastReceiver能够收到这条广播消息，当这个BroadcastReceiver中的逻辑执行完毕后，广播才会继续传递。所以此时的BroadcastReceiver是有先后顺序的，<br>
+优先级高的BroadcastReceiver就可以先收到广播消息，并且前面的BroadcastReceiver还可以截断正在传递的广播，这样后面BroadcastReceiver就无法收到广播消息了。</p>
+<h1>动态监听时间变化</h1>
+<p>我们可以根据自己感兴趣的广播，自由地注册BroadcastReceiver，这样当有相应的广播发出时，相应的BroadcastReceiver就能够收到该广播，并可以在内部进行逻辑处理。注册BroadcastReceiver的方式一般有两种：<strong>在代码中注册和在AndroidManifest.xml中注册。其中前者也被称为动态注册，后者也被称为静态注册。</strong></p>
+<p>那么如何创建一个BroadcastReceiver呢？其实只需新建一个类，让它继承自<br>
+BroadcastReceiver，并重写父类的onReceive()方法就行了。这样当有广播到来时，onReceive()方法就会得到执行，具体的逻辑就可以在这个方法中处理。</p>
+<p>下面我们就先通过动态注册的方式编写一个能够监听时间变化的程序，借此学习一下BroadcastReceiver的基本用法。新建一个BroadcastTest项目，然后修改MainActivity中的代码，如下所示：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MainActivity</span> : <span class="type">AppCompatActivity</span>() &#123;</span><br><span class="line">**<span class="keyword">lateinit</span> <span class="keyword">var</span> timeChangeReceiver: TimeChangeReceiver**</span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line"><span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">setContentView(R.layout.activity_main)</span><br><span class="line">**<span class="keyword">val</span> intentFilter = IntentFilter()</span><br><span class="line">intentFilter.addAction(<span class="string">&quot;android.intent.action.TIME_TICK&quot;</span>)</span><br><span class="line">registerReceiver(TimeChangeReceiver(), intentFilter)**</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onDestroy</span><span class="params">()</span></span> &#123;</span><br><span class="line"><span class="keyword">super</span>.onDestroy()</span><br><span class="line">**unregisterReceiver(TimeChangeReceiver())**</span><br><span class="line">&#125;</span><br><span class="line">**<span class="keyword">inner</span> <span class="keyword">class</span> <span class="title class_">TimeChangeReceiver</span> : <span class="type">BroadcastReceiver</span>() &#123;</span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onReceive</span><span class="params">(context: <span class="type">Context</span>, intent: <span class="type">Intent</span>)</span></span> &#123;</span><br><span class="line">Toast.makeText(context, <span class="string">&quot;Time has changed&quot;</span>, Toast.LENGTH_SHORT).show()</span><br><span class="line">&#125;</span><br><span class="line">&#125;**</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们在MainActivity中定义了一个内部类TimeChangeReceiver，这个类是继承<br>
+自BroadcastReceiver的。</p>
+<p>并重写了父类的onReceive()方法。这样每当系统时间发生变化时，onReceive()方法就会得到执行，这里只是简单地使用Toast提示了一段文本信息。</p>
+<p>观察onCreate()方法，首先我们创建了一个IntentFilter的实例，并给它添加了一个值为android.intent.action.TIME_TICK的action，为什么要添加这个值呢？因为当系统时间发生变化时，系统发出的正是一条值为android.intent.action.TIME_TICK的广播，也就是说我们的BroadcastReceiver想要监听什么广播，就在这里添加相应的action。接下来创建了一个TimeChangeReceiver的实例，然后调用registerReceiver()方法进行注<br>
+册，将TimeChangeReceiver的实例和IntentFilter的实例都传了进去，这样<br>
+TimeChangeReceiver就会收到所有值为android.intent.action.TIME_TICK的广播，也就实现了监听系统时间变化的功能。</p>
+<p>动态注册的BroadcastReceiver一定要取消注册才行，这里我们是在<br>
+onDestroy()方法中通过调用unregisterReceiver()方法来实现的。</p>
+<p>实际上，下面是创建了一个“”意图过滤器“。我们知道隐式启动可以通过匹配<code>action</code>、<code>category</code>、<code>data</code>寻找合适的Activity。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**<span class="keyword">val</span> intentFilter = IntentFilter()**</span><br></pre></td></tr></table></figure>
+<p>下面加入了一个<code>action</code>过滤，符合这个的才行。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**intentFilter.addAction(<span class="string">&quot;android.intent.action.TIME_TICK&quot;</span>)**</span><br></pre></td></tr></table></figure>
+<p>而这里，是注册了<strong>TimeChangeReceiver()。此时，TimeChangeReceiver()可以收到所有值为&quot;android.intent.action.TIME_TICK&quot;的广播</strong></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**registerReceiver(TimeChangeReceiver(), intentFilter)**</span><br></pre></td></tr></table></figure>
+<h1>静态注册实现开机启动</h1>
+<p>动态注册的BroadcastReceiver可以自由地控制注册与注销，在灵活性方面有很大的优势。但是它存在着一个缺点，即必须在程序启动之后才能接收广播，因为注册的逻辑是写在onCreate()方法中的。那么有没有什么办法可以让程序在未启动的情况下也能接收广播呢？<br>
+这就需要使用静态注册的方式了。</p>
+<hr>
+<ul>
+<li><strong>由于大量恶意的应用程序利用这个机制在程序未启动的情况下监听系统广播，从而使任何应用都可以频繁地从后台被唤醒，严重影响了用户手机的电量和性能，因此Android系统几乎每个版本都在削减静态注册BroadcastReceiver的功能。</strong>
+<ul>
+<li>在Android 8.0系统之后，所有隐式广播都不允许使用静态注册的方式来接收了。隐式广播指的是那些没有具体指定发送给哪个应用程序的广播，大多数系统广播属于隐式广播，但是少数特殊的系统广播目前仍然允许使用静态注册的方式来接收。这些特殊的系统广播列表详见<br>
+<a target="_blank" rel="noopener" href="https://developer.android.google.cn/guide/components/broadcast-">https://developer.android.google.cn/guide/components/broadcast-</a><br>
+exceptions.html。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>在这些特殊的系统广播当中，有一条值为<strong>android.intent.action.BOOT_COMPLETED</strong>的广播，这是一条开机广播。</p>
+<p>在开机的时候，我们的应用程序肯定是没有启动的，<br>
+因此这个功能显然不能使用动态注册的方式来实现，而应该使用静态注册的方式来接收开机广播，然后在onReceive()方法里执行相应的逻辑，这样就可以实现开机启动的功能了。</p>
+<p>当然，可以在AS内右键包，添加广播接收器进行设定。但是我们这里手动操作一下。</p>
+<p>新建一个类，内部代码如下</p>
+<blockquote>
+<p><strong>静态的BroadcastReceiver一定要在AndroidManifest.xml文件中注册才可以使用。</strong></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">BootCompleteReceiver</span> : <span class="type">BroadcastReceiver</span>() &#123;</span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onReceive</span><span class="params">(context: <span class="type">Context</span>, intent: <span class="type">Intent</span>)</span></span> &#123;</span><br><span class="line">Toast.makeText(context, <span class="string">&quot;Boot Complete&quot;</span>, Toast.LENGTH_LONG).show()</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>打开AndroidManifest.xml文件，</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">**<span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.RECEIVE_BOOT_COMPLETED&quot;</span> /&gt;</span>**</span><br><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:allowBackup</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:icon</span>=<span class="string">&quot;@mipmap/ic_launcher&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:label</span>=<span class="string">&quot;@string/app_name&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:roundIcon</span>=<span class="string">&quot;@mipmap/ic_launcher_round&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:supportsRtl</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:theme</span>=<span class="string">&quot;@style/AppTheme&quot;</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;<span class="name">receiver</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:name</span>=<span class="string">&quot;.BootCompleteReceiver&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:enabled</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:exported</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以看到，<application>标签内出现了一个新的标签<receiver>，所有静态的<br>
+BroadcastReceiver都是在这里进行注册的。它的用法其实和<activity>标签非常相似，也是通过android:name指定具体注册哪一个BroadcastReceiver。</p>
+<p>但是现在还不行，没有指定接受什么广播。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">receiver</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:name</span>=<span class="string">&quot;.BootCompleteReceiver&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:enabled</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:exported</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">**<span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.BOOT_COMPLETED&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span>**</span><br><span class="line"><span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>由于Android系统启动完成后会发出一条值为android.intent.action.BOOT_COMPLETED的广播，因此我们在<receiver>标签中又添加了一个<intent-filter>标签，并在里面声明了相应的action。</p>
+<p>这里有非常重要的一点需要说明。Android 系统为了保护用户设备的安全和隐私，做了严格的规定：如果程序需要进行一些对用户来说比较敏感的操作，必须在AndroidManifest.xml文件中进行权限声明，否则程序将会直接崩溃。比如这里接收系统的开机广播就是需要进行权限声明的，所以我们在上述代码中使用<uses-permission>标签声明了android.permission.RECEIVE_BOOT_COMPLETED权限。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.RECEIVE_BOOT_COMPLETED&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>需要注意的是，不要在onReceive()方法中添加过多的逻辑或者进行任何的耗时操作，因为BroadcastReceiver中是不允许开启线程的，当onReceive()方法运行了较长时间而没有结束时，程序就会出现错误。</p>
+<h1>发送自定义广播</h1>
+<p>现在你已经学会了通过BroadcastReceiver来接收系统广播，接下来我们就要学习一下如何在应用程序中发送自定义的广播。前面已经介绍过了，广播主要分为两种类型：标准广播和有序广播。</p>
+<h2 id="发送标准广播">发送标准广播</h2>
+<p>在发送广播之前，我们还是需要先定义一个BroadcastReceiver来准备接收此广播，不然发出去也是白发。因此新建一个MyBroadcastReceiver，并在onReceive()方法中加入如下代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyBroadcastReceiver</span> : <span class="type">BroadcastReceiver</span>() &#123;</span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onReceive</span><span class="params">(context: <span class="type">Context</span>, intent: <span class="type">Intent</span>)</span></span> &#123;</span><br><span class="line">Toast.makeText(context, <span class="string">&quot;received in MyBroadcastReceiver&quot;</span>,</span><br><span class="line">Toast.LENGTH_SHORT).show()</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当MyBroadcastReceiver收到自定义的广播时，就会弹出“received in<br>
+MyBroadcastReceiver”的提示。</p>
+<p>然后在AndroidManifest.xml中对这个BroadcastReceiver进行修改：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">receiver</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:name</span>=<span class="string">&quot;.MyBroadcastReceiver&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:enabled</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:exported</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;com.example.broadcasttest.MY_BROADCAST&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以看到，这里让MyBroadcastReceiver接收一条值为<br>
+com.example.broadcasttest.MY_BROADCAST的广播，因此待会儿在发送广播的时候，我们就需要发出这样的一条广播。</p>
+<p>我们在主Activity里定一一个按钮，作为触发点。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">button.setOnClickListener &#123;</span><br><span class="line"><span class="keyword">val</span> intent = Intent(<span class="string">&quot;com.example.broadcasttest.MY_BROADCAST&quot;</span>)</span><br><span class="line">intent.setPackage(packageName)</span><br><span class="line">sendBroadcast(intent)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先构建了一个Intent对象，并把要发送的广播的值传入。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> intent = Intent(<span class="string">&quot;com.example.broadcasttest.MY_BROADCAST&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>调用Intent的setPackage()方法，并传入当前应用程序的包名。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">intent.setPackage(packageName)</span><br></pre></td></tr></table></figure>
+<p>调用sendBroadcast()方法将广播发送出去，这样所有监听com.example.broadcasttest.MY_BROADCAST这条广播的BroadcastReceiver就会收到消息了。此时发出去的广播就是一条标准广播。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sendBroadcast(intent)</span><br></pre></td></tr></table></figure>
+<p>在Android8.0系统之后，<strong>静态注册的BroadcastReceiver是无法接收隐式广播的</strong>，而**默认情况下我们发出的自定义广播恰恰都是隐式广播。**因此这里一定要调用setPackage()方法，<strong>指定这条广播是发送给哪个应用程序的</strong>，从而让它变成一条显式广播，否则静态注册的BroadcastReceiver将无法接收到这条广播。</p>
+<p>另外，由于广播是使用Intent来发送的，因此你还可以在Intent中携带一些数据传递给相应的BroadcastReceiver，这一点和Activity的用法是比较相似的。</p>
+<h2 id="发送有序广播">发送有序广播</h2>
+<p>和标准广播不同，有序广播是一种同步执行的广播，并且是可以被截断的。为了验证这一点，我们需要再创建一个新的BroadcastReceiver。新建AnotherBroadcastReceiver，代码如下所示：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">AnotherBroadcastReceiver</span> : <span class="type">BroadcastReceiver</span>() &#123;</span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onReceive</span><span class="params">(context: <span class="type">Context</span>, intent: <span class="type">Intent</span>)</span></span> &#123;</span><br><span class="line">Toast.makeText(context, <span class="string">&quot;received in AnotherBroadcastReceiver&quot;</span>,</span><br><span class="line">Toast.LENGTH_SHORT).show()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在AndroidManifest.xml中对这个BroadcastReceiver的配置进行修改，代码如下所示：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">receiver</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:name</span>=<span class="string">&quot;.AnotherBroadcastReceiver&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:enabled</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:exported</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;com.example.broadcasttest.MY_BROADCAST&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>重新回到BroadcastTest项目，然后修改MainActivity中的代码。</p>
+<p>发送有序广播只需要改动一行代码，即将sendBroadcast()方法改成<br>
+sendOrderedBroadcast()方法。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">button.setOnClickListener &#123;</span><br><span class="line"><span class="keyword">val</span> intent = Intent(<span class="string">&quot;com.example.broadcasttest.MY_BROADCAST&quot;</span>)</span><br><span class="line">intent.setPackage(packageName)</span><br><span class="line">sendOrderedBroadcast(intent, <span class="literal">null</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>sendOrderedBroadcast()方法接收两个参数：第一个参数仍然是Intent；第二个参数是一个与权限相关的字符串，这里传入null就行了。现在重新运行程序，并点击“Send Broadcast”按钮，你会发现，两个BroadcastReceiver仍然都可以收到这条广播。</p>
+<p>该如何设定BroadcastReceiver的先后顺序呢？当然是在注册的时候进行设定了，修改AndroidManifest.xml中的代码，如下所示</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">receiver</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:name</span>=<span class="string">&quot;.MyBroadcastReceiver&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:enabled</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:exported</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">intent-filter</span> <span class="attr">android:priority</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;com.example.broadcasttest.MY_BROADCAST&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>我们通过android:priority属性给BroadcastReceiver设置了优先级，优先级<br>
+比较高的BroadcastReceiver就可以先收到广播。这里将MyBroadcastReceiver的优先级设成了100，以保证它一定会在AnotherBroadcastReceiver之前收到广播。</p>
+<p>既然已经获得了接收广播的优先权，那么MyBroadcastReceiver就可以选择是否允许广播继续传递了。修改MyBroadcastReceiver中的代码，如下所示：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyBroadcastReceiver</span> : <span class="type">BroadcastReceiver</span>() &#123;</span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onReceive</span><span class="params">(context: <span class="type">Context</span>, intent: <span class="type">Intent</span>)</span></span> &#123;</span><br><span class="line">Toast.makeText(context, <span class="string">&quot;received in MyBroadcastReceiver&quot;</span>,</span><br><span class="line">Toast.LENGTH_SHORT).show()</span><br><span class="line">abortBroadcast()</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果在onReceive()方法中调用了abortBroadcast()方法，就表示将这条广播截断，后面的BroadcastReceiver将无法再接收到这条广播。</p>
+<p>现在重新运行程序，并点击“Send Broadcast”按钮，你会发现只有MyBroadcastReceiver中的Toast信息能够弹出，说明这条广播经过MyBroadcastReceiver之后确实终止传递了。</p>
+<h2 id="实现强制下线功能">实现强制下线功能</h2>
+<p>强制下线应该算是一个比较常见的功能，比如如果你的QQ号在别处登录了，就会将你强制挤下线。其实实现强制下线功能的思路比较简单，只需要在界面上弹出一个对话框，让用户无法进行任何其他操作，必须点击对话框中的“确定”按钮，然后回到登录界面即可。可是这样就会存在一个问题：当用户被通知需要强制下线时，可能正处于任何一个界面，难道要在每个界面上都编写一个弹出对话框的逻辑？我们完全可以广播，实现这一功能。新建一个BroadcastBestPractice项目，然后开始动手吧。</p>
+<p>强制下线功能需要先关闭所有的Activity，然后回到登录界面。</p>
+<p>先创建一个ActivityCollector类用于管理所有的Activity。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span> ActivityCollector &#123;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> activities = ArrayList&lt;Activity&gt;()</span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">addActivity</span><span class="params">(activity: <span class="type">Activity</span>)</span></span> &#123;</span><br><span class="line">activities.add(activity)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">removeActivity</span><span class="params">(activity: <span class="type">Activity</span>)</span></span> &#123;</span><br><span class="line">activities.remove(activity)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">finishAll</span><span class="params">()</span></span> &#123;</span><br><span class="line"><span class="keyword">for</span> (activity <span class="keyword">in</span> activities) &#123;</span><br><span class="line"><span class="keyword">if</span> (!activity.isFinishing) &#123;</span><br><span class="line">activity.finish()</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">activities.clear()</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后创建BaseActivity类作为所有Activity的父类，代码如下所示：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="keyword">class</span> <span class="title class_">BaseActivity</span> : <span class="type">AppCompatActivity</span>() &#123;</span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line"><span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">ActivityCollector.addActivity(<span class="keyword">this</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onDestroy</span><span class="params">()</span></span> &#123;</span><br><span class="line"><span class="keyword">super</span>.onDestroy()</span><br><span class="line">ActivityCollector.removeActivity(<span class="keyword">this</span>)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要一个按钮触发下线。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">forceOffline.setOnClickListener &#123;</span><br><span class="line"><span class="keyword">val</span> intent = Intent(<span class="string">&quot;com.example.broadcastbestpractice.FORCE_OFFLINE&quot;</span>)</span><br><span class="line">sendBroadcast(intent)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们在按钮的点击事件里发送了一条广播，广播的值为<br>
+com.example.broadcastbestpractice.FORCE_OFFLINE，这条广播就是用于通知程序强制用户下线的。也就是说，强制用户下线的逻辑并不是写在MainActivity里的，而是应该写在接收这条广播的BroadcastReceiver里。这样强制下线的功能就不会依附于任何界面了，不管是在程序的任何地方，只要发出这样一条广播，就可以完成强制下线的操作了。</p>
+<p>接下来我们就需要创建一个BroadcastReceiver来接收这条强制下线广播。唯<br>
+一的问题就是，应该在哪里创建呢？由于BroadcastReceiver中需要弹出一个对话框来阻塞用户的正常操作，但如果创建的是一个静态注册的BroadcastReceiver，是没有办法在onReceive()方法里弹出对话框这样的UI控件的，而我们显然也不可能在每个Activity中都注册一个动态BroadcastReceiver。</p>
+<p>答案其实很明显，只需要在BaseActivity中动态注册一个<br>
+BroadcastReceiver就可以了，因为所有的Activity都继承自BaseActivity。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="keyword">class</span> <span class="title class_">BaseActivity</span> : <span class="type">AppCompatActivity</span>() &#123;</span><br><span class="line"><span class="keyword">lateinit</span> <span class="keyword">var</span> receiver: ForceOfflineReceiver</span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line"><span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">ActivityCollector.addActivity(<span class="keyword">this</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onResume</span><span class="params">()</span></span> &#123;</span><br><span class="line"><span class="keyword">super</span>.onResume()</span><br><span class="line"><span class="keyword">val</span> intentFilter = IntentFilter()</span><br><span class="line">intentFilter.addAction(<span class="string">&quot;com.example.broadcastbestpractice.FORCE_OFFLINE&quot;</span>)</span><br><span class="line">receiver = ForceOfflineReceiver()</span><br><span class="line">registerReceiver(receiver, intentFilter)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onPause</span><span class="params">()</span></span> &#123;</span><br><span class="line"><span class="keyword">super</span>.onPause()</span><br><span class="line">unregisterReceiver(receiver)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onDestroy</span><span class="params">()</span></span> &#123;</span><br><span class="line"><span class="keyword">super</span>.onDestroy()</span><br><span class="line">ActivityCollector.removeActivity(<span class="keyword">this</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">inner</span> <span class="keyword">class</span> <span class="title class_">ForceOfflineReceiver</span> : <span class="type">BroadcastReceiver</span>() &#123;</span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onReceive</span><span class="params">(context: <span class="type">Context</span>, intent: <span class="type">Intent</span>)</span></span> &#123;</span><br><span class="line">AlertDialog.Builder(context).apply &#123;</span><br><span class="line">setTitle(<span class="string">&quot;Warning&quot;</span>)</span><br><span class="line">setMessage(<span class="string">&quot;You are forced to be offline. Please try to login again.&quot;</span>)</span><br><span class="line">setCancelable(<span class="literal">false</span>)</span><br><span class="line">setPositiveButton(<span class="string">&quot;OK&quot;</span>) &#123; _, _ -&gt;</span><br><span class="line">ActivityCollector.finishAll() <span class="comment">// 销毁所有Activity</span></span><br><span class="line"><span class="keyword">val</span> i = Intent(context, LoginActivity::<span class="keyword">class</span>.java)</span><br><span class="line">context.startActivity(i) <span class="comment">// 重新启动LoginActivity</span></span><br><span class="line">&#125;</span><br><span class="line">show()</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ForceOﬄineReceiver中的代码，这次onReceive()方法里可不再是仅仅弹出一个<br>
+Toast了，而是加入了较多的代码，那我们就来仔细看看吧。</p>
+<p>先是使用AlertDialog.Builder构建一个对话框。注意，这里一定要调用setCancelable()方法将对话框设为不可取消，否则用户按一下Back键就可以关闭对话框继续使用程序了。</p>
+<p>然后使用setPositiveButton()方法给对话框注册确定按钮，当用户点击了“OK”按钮时，就调用ActivityCollector的finishAll()方法销毁所有Activity，并重新启动LoginActivity。</p>
+<p>再来看一下我们是怎么注册ForceOﬄineReceiver这个BroadcastReceiver的。可以看到，这里重写了onResume()和onPause()这两个生命周期方法，然后分别在这两个方法里注册和取消注册了ForceOﬄineReceiver。</p>
+<p>为什么要这样写呢？之前不都是在onCreate()和onDestroy()方法里注册和取消注册BroadcastReceiver的吗？这是因为我们始终需要保证只有处于栈顶的Activity才能接收到这条强制下线广播，非栈顶的Activity不应该也没必要接收这条广播，所以写在onResume()和onPause()方法里就可以很好地解决这个问题，当一个Activity失去栈顶位置时就会自动取消BroadcastReceiver的注册。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://KilluaSSR.github.io">Killua</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://killuassr.github.io/2023/09/07/%E5%B9%BF%E6%92%AD%E6%9C%BA%E5%88%B6%20/">https://killuassr.github.io/2023/09/07/%E5%B9%BF%E6%92%AD%E6%9C%BA%E5%88%B6%20/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://KilluaSSR.github.io" target="_blank">KilluaSSR</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Android/">Android</a></div><div class="post_share"><div class="social-share" data-image="https://s2.loli.net/2023/11/25/eKFtnus7iGYPJCb.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/09/07/%E5%AE%9A%E4%B9%89%E4%B8%BB%E9%A2%98/" title="Jetpack Compose-定义主题"><img class="cover" src="https://s2.loli.net/2023/11/25/hoLPvKAtJHbI6x7.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Jetpack Compose-定义主题</div></div></a></div><div class="next-post pull-right"><a href="/2023/09/07/%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%20/" title="文件IO"><img class="cover" src="https://s2.loli.net/2023/11/25/lrV8zJ9xD2wMn4a.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">文件IO</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/09/07/Activity-Intent%E5%90%AF%E5%8A%A8%20/" title="Activity-Intent启动"><img class="cover" src="https://s2.loli.net/2023/11/25/8u5vrdk4KmZyA7R.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-07</div><div class="title">Activity-Intent启动</div></div></a></div><div><a href="/2023/09/07/Activity%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE/" title="Activity之间传递数据"><img class="cover" src="https://s2.loli.net/2023/11/25/HVrWUGi8g4MNDfX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-07</div><div class="title">Activity之间传递数据</div></div></a></div><div><a href="/2023/09/07/Activity%E7%9A%84%E5%90%AF%E5%8A%A8%E6%A8%A1%E5%BC%8F/" title="Activity的启动模式"><img class="cover" src="https://s2.loli.net/2023/11/25/z7J4qwuGHeRAnc8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-07</div><div class="title">Activity的启动模式</div></div></a></div><div><a href="/2023/09/07/Activity%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" title="Activity的生命周期"><img class="cover" src="https://s2.loli.net/2023/11/25/UjLWuCcV6QDwAZg.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-07</div><div class="title">Activity的生命周期</div></div></a></div><div><a href="/2023/09/07/Permission%20X/" title="权限管理PermissionX"><img class="cover" src="https://s2.loli.net/2023/11/25/MR4hY52ULgPFyKC.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-07</div><div class="title">权限管理PermissionX</div></div></a></div><div><a href="/2023/09/07/SQL/" title="SQL"><img class="cover" src="https://s2.loli.net/2023/11/25/z7J4qwuGHeRAnc8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-07</div><div class="title">SQL</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/ava.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Killua</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://killuassr.carrd.co/"><i class="fa-solid fa-link"></i><span>My Social Accounts</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/KilluaSSR" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://twitter.com/Killua_SSR" target="_blank" title="Twitter"><i class="fa-brands fa-twitter" style="color: #14b1ff;"></i></a><a class="social-icon" href="https://t.me/killuassr" target="_blank" title="Telegram"><i class="fa-brands fa-telegram" style="color: #005eff;"></i></a><a class="social-icon" href="https://discord.com/users/1006139996119498774" target="_blank" title="Discord"><i class="fa-brands fa-discord" style="color: #3d7ef0;"></i></a><a class="social-icon" href="https://www.instagram.com/killua_ssr" target="_blank" title="Ins"><i class="fa-brands fa-instagram" style="color: #d71d27;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Love</span></div><div class="announcement_content">僕は君に合うために生まれてきたのかもしれない。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">广播机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">动态监听时间变化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">静态注册实现开机启动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">发送自定义广播</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E6%A0%87%E5%87%86%E5%B9%BF%E6%92%AD"><span class="toc-number">4.1.</span> <span class="toc-text">发送标准广播</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E6%9C%89%E5%BA%8F%E5%B9%BF%E6%92%AD"><span class="toc-number">4.2.</span> <span class="toc-text">发送有序广播</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%BC%BA%E5%88%B6%E4%B8%8B%E7%BA%BF%E5%8A%9F%E8%83%BD"><span class="toc-number">4.3.</span> <span class="toc-text">实现强制下线功能</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/09/12/Python-Basics1/" title="Python基础-1"><img src="https://s2.loli.net/2023/11/25/tKIVjGu6RQoFZYe.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python基础-1"/></a><div class="content"><a class="title" href="/2023/09/12/Python-Basics1/" title="Python基础-1">Python基础-1</a><time datetime="2023-09-12T07:18:09.000Z" title="发表于 2023-09-12 15:18:09">2023-09-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/07/Activity-Intent%E5%90%AF%E5%8A%A8%20/" title="Activity-Intent启动"><img src="https://s2.loli.net/2023/11/25/8u5vrdk4KmZyA7R.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Activity-Intent启动"/></a><div class="content"><a class="title" href="/2023/09/07/Activity-Intent%E5%90%AF%E5%8A%A8%20/" title="Activity-Intent启动">Activity-Intent启动</a><time datetime="2023-09-07T06:15:17.000Z" title="发表于 2023-09-07 14:15:17">2023-09-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/07/Activity%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE/" title="Activity之间传递数据"><img src="https://s2.loli.net/2023/11/25/HVrWUGi8g4MNDfX.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Activity之间传递数据"/></a><div class="content"><a class="title" href="/2023/09/07/Activity%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE/" title="Activity之间传递数据">Activity之间传递数据</a><time datetime="2023-09-07T06:15:17.000Z" title="发表于 2023-09-07 14:15:17">2023-09-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/07/Activity%E7%9A%84%E5%90%AF%E5%8A%A8%E6%A8%A1%E5%BC%8F/" title="Activity的启动模式"><img src="https://s2.loli.net/2023/11/25/z7J4qwuGHeRAnc8.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Activity的启动模式"/></a><div class="content"><a class="title" href="/2023/09/07/Activity%E7%9A%84%E5%90%AF%E5%8A%A8%E6%A8%A1%E5%BC%8F/" title="Activity的启动模式">Activity的启动模式</a><time datetime="2023-09-07T06:15:17.000Z" title="发表于 2023-09-07 14:15:17">2023-09-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/07/Activity%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" title="Activity的生命周期"><img src="https://s2.loli.net/2023/11/25/UjLWuCcV6QDwAZg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Activity的生命周期"/></a><div class="content"><a class="title" href="/2023/09/07/Activity%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" title="Activity的生命周期">Activity的生命周期</a><time datetime="2023-09-07T06:15:17.000Z" title="发表于 2023-09-07 14:15:17">2023-09-07</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By Killua</div><div class="footer_custom_text">Love Killua.</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"></div><div class="aplayer no-destroy" data-id="8457967086" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="true" muted></div><script src="/js/navi.js?v1"></script><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="Killua,Zoldyck,Gon" data-fontsize="15px" data-random="true" async="async"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
