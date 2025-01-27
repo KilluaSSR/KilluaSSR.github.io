@@ -1,0 +1,348 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>论如何鲨光推特克隆人 | KilluaDev.kt</title><meta name="author" content="Killua"><meta name="copyright" content="Killua"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="先决要求  你需要安装Java、Python环境。可以不一定有Python，但是必须要有Java环境。因为程序是由Kotlin编写的。 你的电脑可以畅连国际互联网环境。 一点耐心和理解能力。  安装Java环境（安装过的可以跳过） Windows用户 点击此处下载安装文件，根据提示一路安装即可。如果有提示添加到环境变量（PATH）记得勾选。 MacOS用户 英特尔用户点击此处下载安装文件。 ARM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论如何鲨光推特克隆人">
+<meta property="og:url" content="https://killua.app/2025/01/25/%E8%AE%BA%E5%A6%82%E4%BD%95%E9%B2%A8%E5%85%89%E6%8E%A8%E7%89%B9%E5%85%8B%E9%9A%86%E4%BA%BA/index.html">
+<meta property="og:site_name" content="KilluaDev.kt">
+<meta property="og:description" content="先决要求  你需要安装Java、Python环境。可以不一定有Python，但是必须要有Java环境。因为程序是由Kotlin编写的。 你的电脑可以畅连国际互联网环境。 一点耐心和理解能力。  安装Java环境（安装过的可以跳过） Windows用户 点击此处下载安装文件，根据提示一路安装即可。如果有提示添加到环境变量（PATH）记得勾选。 MacOS用户 英特尔用户点击此处下载安装文件。 ARM">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2023/11/25/tKIVjGu6RQoFZYe.png">
+<meta property="article:published_time" content="2025-01-25T05:18:09.000Z">
+<meta property="article:modified_time" content="2025-01-27T07:35:52.146Z">
+<meta property="article:author" content="Killua">
+<meta property="article:tag" content="Technology">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2023/11/25/tKIVjGu6RQoFZYe.png"><link rel="shortcut icon" href="/img/ava.jpg"><link rel="canonical" href="https://killua.app/2025/01/25/%E8%AE%BA%E5%A6%82%E4%BD%95%E9%B2%A8%E5%85%89%E6%8E%A8%E7%89%B9%E5%85%8B%E9%9A%86%E4%BA%BA/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: {"limitDay":100,"position":"top","messagePrev":"这篇文章已经发布了","messageNext":"天了哦～请注意相关内容是否变动与是否有效。o(*////▽////*)q"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '论如何鲨光推特克隆人',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-01-27 15:35:52'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/bkg.css"><link rel="stylesheet" href="/css/navi.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/ava.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/categories/Study/"><i class="fa-fw fas fa-pen-ruler"></i><span> 学习</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://s2.loli.net/2023/11/25/tKIVjGu6RQoFZYe.png')"><nav id="nav"><span id="blog-info"><a href="/" title="KilluaDev.kt"><span class="site-name">KilluaDev.kt</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/categories/Study/"><i class="fa-fw fas fa-pen-ruler"></i><span> 学习</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">论如何鲨光推特克隆人</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-01-25T05:18:09.000Z" title="发表于 2025-01-25 13:18:09">2025-01-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-01-27T07:35:52.146Z" title="更新于 2025-01-27 15:35:52">2025-01-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Life/">Life</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="论如何鲨光推特克隆人"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>先决要求</h1>
+<ul>
+<li>你需要安装Java、Python环境。可以不一定有Python，但是必须要有Java环境。因为程序是由Kotlin编写的。</li>
+<li>你的电脑可以畅连国际互联网环境。</li>
+<li>一点耐心和理解能力。</li>
+</ul>
+<h2 id="安装Java环境（安装过的可以跳过）">安装Java环境（安装过的可以跳过）</h2>
+<h3 id="Windows用户">Windows用户</h3>
+<p>点击此处<a target="_blank" rel="noopener" href="https://download.oracle.com/java/23/latest/jdk-23_windows-x64_bin.exe">下载</a>安装文件，根据提示一路安装即可。如果有提示添加到环境变量（PATH）记得勾选。</p>
+<h3 id="MacOS用户">MacOS用户</h3>
+<p>英特尔用户点击此处<a target="_blank" rel="noopener" href="https://download.oracle.com/java/23/latest/jdk-23_macos-x64_bin.dmg">下载</a>安装文件。</p>
+<p>ARM用户点击此处<a target="_blank" rel="noopener" href="https://download.oracle.com/java/23/latest/jdk-23_macos-aarch64_bin.dmg">下载</a>安装文件。</p>
+<p>Homebrew用户在终端内输入以下命令安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install openjdk@21</span><br></pre></td></tr></table></figure>
+<h2 id="下载程序">下载程序</h2>
+<p>从此处<a target="_blank" rel="noopener" href="https://hezhaothu.lanzoue.com/ifOlH2m3b9fi">下载</a>，你会获得一个文件名叫<code>app.jar</code>的文件。<strong>不要双击打开，不要解压。就那么放着</strong>。</p>
+<h2 id="开始使用">开始使用</h2>
+<ul>
+<li>
+<p>如果你已经正确安装Java了，那么你在终端/cmd.exe里输入以下命令，会看到版本号如下图。你可能版本号和我的不一样，有类似输出即可。如果下面的所有命令前面有一个$美元符号，<strong>不要</strong>把它也复制进去了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java --version</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2025/01/27/lkCOLVz9w8FdxEa.png" alt="image-20250127140700972.png"></p>
+</li>
+<li>
+<p>然而实际上我们最终需要三个文件。第一个是<code>app.jar</code>，我们已经有了。第二步，需要登录你的Twitter账号，获得一个<code>twitter_credentials.properties</code>文件。按照以下步骤登录。</p>
+<ul>
+<li>
+<p>进入<code>app.jar</code>的目录，打开终端/cmd.exe，输入以下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar app.jar auth</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>你将会看到一个网页链接（红色框内），和一个输入PIN的地方（蓝色框内），如图：</p>
+<p><img src="https://s2.loli.net/2025/01/27/RHwEVrTK3lBixqC.png" alt="image-20250127142014301.png"></p>
+</li>
+<li>
+<p>把网页链接复制到浏览器内，登录你的Twitter账号并点击授权，你会获得一串数字。把它复制下来，粘贴到PIN的地方，回车。你已经完成了登录。此时，你应该可以看到你获得了一个<code>twitter_credentials.properties</code>文件。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>你还需要一个<code>sinner.txt</code>文件，这个文件必须与<code>app.jar</code>和<code>twitter_credentials.properties</code>在同目录下，如下图所示：</p>
+<p><img src="https://s2.loli.net/2025/01/27/hZF68GH4xdiQgr2.png" alt="image-20250127142355278.png"></p>
+<ul>
+<li>
+<p><code>sinner.txt</code>的内部结构是多行的数字，每一行一个。这个数字是Twitter用户的ID（这个ID具有唯一性且不可变，不是@后的那个也不是用户名。无论怎么修改账号的用户名或者@后的内容，都可以通过这个数字找到你。让我们看看<code>sinner.txt</code>内部的结构。<strong>稍后我们讲解如何获得这个<code>sinner.txt</code>。让我们先假设你已经获得了这个文件</strong>。</p>
+<p><img src="https://s2.loli.net/2025/01/27/xkYCdjXvWtihSyN.png" alt="image-20250127142553156.png"></p>
+</li>
+</ul>
+</li>
+<li>
+<p>如果你前面的步骤都完成的准确无误，就可以开始批量block了。</p>
+<ul>
+<li>
+<p>输入命令，即可开始对<code>sinner.txt</code>内的用户全部block。<strong>运行速度会较慢，这是有意为之</strong>。高速、大量的block人会导致你的账号被风控。</p>
+<p><img src="https://s2.loli.net/2025/01/27/QgPYNvwM9yZFB7r.png" alt="image-20250127142826706.png"></p>
+</li>
+<li>
+<p>block的过程如下：先加载<code>sinner.txt</code>内的所有用户到一个集合中，再获取你已经block掉的用户名单、你的关注和你的粉丝名单，从<code>sinner</code>集合中去除这三部分人。做到了既不重复block引起风控，又不会伤及你的粉丝或者你关注的人。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="获取sinner-txt">获取<code>sinner.txt</code></h2>
+<p>有两种方法，第一种最简单，就是使用别人已经整理好的。<a target="_blank" rel="noopener" href="https://hezhaothu.lanzoue.com/iO9mW2m3b9ha">单击此处下载用户名为“叫妮姐”的克隆人ID集合</a>。</p>
+<p>让我们讲讲第二种。</p>
+<ul>
+<li>打开你最喜欢的浏览器，用它打开twitter网页，点击搜索框，输入你最痛恨的克隆人后，点击<strong>People</strong>搜索用户。单击F12打开开发者选项。高贵的Safari用户请右击鼠标选择<strong>检查元素</strong>。360/QQ浏览器未测试，但是右击总会有一个能打开一个类似于下图界面的按钮，点击它即可。</li>
+</ul>
+<p><img src="https://s2.loli.net/2025/01/27/AOh1ten36i5NPsl.png" alt="image-20250127144537391.png"></p>
+<ul>
+<li>
+<p>这里不是我们要的，看到这个窗口的顶栏，选择<strong>网络/Network，嗯图里左数第四个就是，不许跟我说找不到</strong>。点击以后能看到下图的样子，左侧看上去有一堆文件。以下两个图分别是Edge(Chrome)和Safari的截图。</p>
+<p><img src="https://s2.loli.net/2025/01/27/zPcboDEt3xu5ikH.jpg" alt="image-20250127145143205.jpg"></p>
+<p><img src="https://s2.loli.net/2025/01/27/iSBGsgDaLqpxdjm.png" alt="image-20250127145237796.png"></p>
+<ul>
+<li>
+<p>聪明的你肯定发现了我圈起来了一个按钮，点击一下，清除这里所有的文件记录。保持着这个开发者栏开启，刷新一次网页，你会发现重新加载出来了一堆文件。看到有个搜索栏了吗？在里面输入<strong>SearchTimeline</strong>，别打错了，怕打错就复制粘贴。你应该会发现里面有一个这样的文件（注意，它看上去可能不一定长这样，可能后面还有一堆字符什么的，但是只要是<strong>包含</strong>了<strong>SearchTimeline</strong>这个词组的就行了），可能不止一个，但是肯定有。前面Edge截图那里的那些也一样。</p>
+<p><img src="https://s2.loli.net/2025/01/27/O7woghMS9JZazyV.png" alt="image-20250127145601775.png"></p>
+</li>
+<li>
+<p>这时候你需要做的就是在网页往下滑动，仿佛这里没有你要找的“叫妮姐”似的。随着你的滑动，你会发现这里出现了越来越多包涵<strong>SearchTimeline</strong>这个词的文件。一直往下滑，直到你触发了Twitter的限制，加载失败，或者直到你搜不到这个用户名了。此时你已经积攒了大量的<strong>SearchTimeline</strong>文件。</p>
+</li>
+<li>
+<p>不用选择什么东西，直接点击导出（一个向上的箭头）。你会导出一个后缀是har的文件。此时<a target="_blank" rel="noopener" href="https://hezhaothu.lanzoue.com/iPTg32m3bape">下载这个python脚本</a>并解压出来一个.py文件。你需要保证你的电脑已经安装了python环境。创建一个虚拟环境，打开终端/cmd.exe，一行一行地输入以下命令。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python3 -m venv env</span><br><span class="line">cd env/bin</span><br><span class="line">source activate</span><br><span class="line">cd ../../</span><br><span class="line">python extract.py</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>根据提示，输入har文件的路径。你会得到一个sinner.txt文件。把它复制到与app.jar同目录即可。</p>
+</li>
+</ul>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://killua.app">Killua</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://killua.app/2025/01/25/%E8%AE%BA%E5%A6%82%E4%BD%95%E9%B2%A8%E5%85%89%E6%8E%A8%E7%89%B9%E5%85%8B%E9%9A%86%E4%BA%BA/">https://killua.app/2025/01/25/%E8%AE%BA%E5%A6%82%E4%BD%95%E9%B2%A8%E5%85%89%E6%8E%A8%E7%89%B9%E5%85%8B%E9%9A%86%E4%BA%BA/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://killua.app" target="_blank">KilluaDev.kt</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Technology/">Technology</a></div><div class="post_share"><div class="social-share" data-image="https://s2.loli.net/2023/11/25/tKIVjGu6RQoFZYe.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/07/27/T274%20H%E6%8C%87%E6%95%B0/" title="T274-H指数"><img class="cover" src="https://s2.loli.net/2023/11/25/tKIVjGu6RQoFZYe.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">T274-H指数</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/ava.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Killua</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" href="mailto:hello@killua.app"><i class="fa-solid fa-link"></i><span>Email</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/KilluaSSR" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://t.me/killua_chatbot" target="_blank" title="Telegram"><i class="fa-brands fa-telegram" style="color: #005eff;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Love</span></div><div class="announcement_content">僕は君に合うために生まれてきたのかもしれない。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">先决要求</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Java%E7%8E%AF%E5%A2%83%EF%BC%88%E5%AE%89%E8%A3%85%E8%BF%87%E7%9A%84%E5%8F%AF%E4%BB%A5%E8%B7%B3%E8%BF%87%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">安装Java环境（安装过的可以跳过）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows%E7%94%A8%E6%88%B7"><span class="toc-number">1.1.1.</span> <span class="toc-text">Windows用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MacOS%E7%94%A8%E6%88%B7"><span class="toc-number">1.1.2.</span> <span class="toc-text">MacOS用户</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.2.</span> <span class="toc-text">下载程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">开始使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96sinner-txt"><span class="toc-number">1.4.</span> <span class="toc-text">获取sinner.txt</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/01/25/%E8%AE%BA%E5%A6%82%E4%BD%95%E9%B2%A8%E5%85%89%E6%8E%A8%E7%89%B9%E5%85%8B%E9%9A%86%E4%BA%BA/" title="论如何鲨光推特克隆人"><img src="https://s2.loli.net/2023/11/25/tKIVjGu6RQoFZYe.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="论如何鲨光推特克隆人"/></a><div class="content"><a class="title" href="/2025/01/25/%E8%AE%BA%E5%A6%82%E4%BD%95%E9%B2%A8%E5%85%89%E6%8E%A8%E7%89%B9%E5%85%8B%E9%9A%86%E4%BA%BA/" title="论如何鲨光推特克隆人">论如何鲨光推特克隆人</a><time datetime="2025-01-25T05:18:09.000Z" title="发表于 2025-01-25 13:18:09">2025-01-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/27/T274%20H%E6%8C%87%E6%95%B0/" title="T274-H指数"><img src="https://s2.loli.net/2023/11/25/tKIVjGu6RQoFZYe.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="T274-H指数"/></a><div class="content"><a class="title" href="/2024/07/27/T274%20H%E6%8C%87%E6%95%B0/" title="T274-H指数">T274-H指数</a><time datetime="2024-07-27T07:18:09.000Z" title="发表于 2024-07-27 15:18:09">2024-07-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/27/T42%20%E6%8E%A5%E9%9B%A8%E6%B0%B4/" title="T42-接雨水"><img src="https://s2.loli.net/2023/11/25/tKIVjGu6RQoFZYe.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="T42-接雨水"/></a><div class="content"><a class="title" href="/2024/07/27/T42%20%E6%8E%A5%E9%9B%A8%E6%B0%B4/" title="T42-接雨水">T42-接雨水</a><time datetime="2024-07-27T07:18:09.000Z" title="发表于 2024-07-27 15:18:09">2024-07-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/02/20/%E7%96%AB%E6%83%85%E5%90%8E%E7%9A%84%E5%BF%83%E7%90%86%E5%88%9B%E4%BC%A4/" title="疫情后的心理创伤"><img src="https://s2.loli.net/2023/11/25/tKIVjGu6RQoFZYe.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="疫情后的心理创伤"/></a><div class="content"><a class="title" href="/2024/02/20/%E7%96%AB%E6%83%85%E5%90%8E%E7%9A%84%E5%BF%83%E7%90%86%E5%88%9B%E4%BC%A4/" title="疫情后的心理创伤">疫情后的心理创伤</a><time datetime="2024-02-20T07:18:09.000Z" title="发表于 2024-02-20 15:18:09">2024-02-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/01/%E6%9E%81%E9%99%901/" title="高等数学极限Part1"><img src="https://s2.loli.net/2023/07/02/dTNItU6Do4bZpj5.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="高等数学极限Part1"/></a><div class="content"><a class="title" href="/2023/07/01/%E6%9E%81%E9%99%901/" title="高等数学极限Part1">高等数学极限Part1</a><time datetime="2023-07-01T02:28:10.000Z" title="发表于 2023-07-01 10:28:10">2023-07-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2025 By Killua</div><div class="footer_custom_text">Love Killua.</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"></div><div class="aplayer no-destroy" data-id="8457967086" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="true" muted></div><script src="/js/navi.js?v1"></script><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="Killua,Zoldyck,Gon,I love ZL" data-fontsize="15px" data-random="true" async="async"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
